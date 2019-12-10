@@ -6,8 +6,10 @@ const createUser = () => {
     return async (ctx, next) => {
         let { name, password, phone, verificationCode } = ctx.request.body;
         const user = new ManageUser(name, password, phone)
+
         const data = await user.save();
         console.log(data)
+
         ctx.body = formatteResult(true, '注册成功');
     }
 }

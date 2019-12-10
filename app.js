@@ -6,6 +6,8 @@ const bodyParser = require('koa-bodyparser'); // body传值
 
 require('module-alias/register')// 路径别名
 
+const koajwt = require('koa-jwt');
+
 const app = new Koa();
 
 app.use(async (ctx, next) => {
@@ -26,5 +28,11 @@ router.use('/login', login.routes());
 router.use('/user', user.routes());
 
 app.use(router.routes()).use(router.allowedMethods);
+
+app.use(koajwt({
+    secret: 'my_token'
+}).unless({
+    path: [/\/login/]
+}));
 
 app.listen(5000);
