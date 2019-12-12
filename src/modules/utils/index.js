@@ -13,7 +13,22 @@ const encrytoPwd = (pwd) => {
     return hmac.digest('hex');
 }
 
+//检验token
+const isHasToken = () => {
+    return async (ctx, next) => {
+        return await next().catch(err => {
+            if (err.status === 401) {
+                ctx.status = 401;
+                ctx.body = formatteResult(0, err.originalError ? err.originalError.message : err.message)
+            } else {
+                throw err;
+            }
+        })
+    }
+}
+
 module.exports = {
     formatteResult,
-    encrytoPwd
+    encrytoPwd,
+    isHasToken
 };

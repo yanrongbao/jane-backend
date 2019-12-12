@@ -8,7 +8,6 @@ const createUser = () => {
         const user = new ManageUser(name, password, phone)
 
         const data = await user.save();
-        console.log(data)
 
         ctx.body = formatteResult(true, '注册成功');
     }
