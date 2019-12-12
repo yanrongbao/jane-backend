@@ -19,7 +19,12 @@ const userLogin = () => {
             //密码错误
             ctx.body = formatteResult(false, '密码错误');
         } else {
-            const token = auth.sign(ctx, ctx.request.body)
+            const token = auth.sign(ctx.request.body);
+            ctx.set(AUTHORIZATION, `Bearer ${token}`)
+            ctx.cookies.set(tokenName, token, {
+                maxAge: expiresIn,
+                httpOnly: true
+            })
             ctx.body = formatteResult(true, '登录成功', [token]);
         }
     }

@@ -11,5 +11,10 @@ router.post('/', createUser());
  */
 router.get('/checkname', checkUserExits());
 
+/**
+ * 用户登出
+ * name 用户名
+ */
+router.get('/logout', checkUserExits());
 
 module.exports = router;

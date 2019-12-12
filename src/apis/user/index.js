@@ -27,6 +27,10 @@ const checkUserExits = () => {
     }
 }
 
+const userLogout = () => {
+
+}
+
 module.exports = {
     createUser,
     checkUserExits

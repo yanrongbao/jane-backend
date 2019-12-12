@@ -8,13 +8,8 @@ const unprotectedUrl = [/\/login/, /\/user/];//过滤验证token路径
 
 const auth = {
     //生成token info：body传值
-    sign: (ctx, info) => {
+    sign: (info) => {
         const token = jwt.sign(info, secret, { expiresIn });
-        ctx.set(AUTHORIZATION, `Bearer ${token}`)
-        ctx.cookies.set(tokenName, token, {
-            maxAge: expiresIn,
-            httpOnly: true
-        })
         return token;
     },
     //解析token
