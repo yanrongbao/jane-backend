@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const { userLogin, checkName } = require('@apis/login')
+const { userLogin, checkName } = require('@controllers/login');
 
 //登录
 router.post('/', userLogin());

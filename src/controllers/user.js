@@ -1,14 +1,12 @@
-const { query } = require('@modules/DB');
-const { formatteResult } = require('@modules/utils');
-const { ManageUser } = require('./user')
+const { query } = require('@lib/db');
+const { formatteResult, encrytoPwd } = require('@utils');
+const moment = require('moment');
 
 const createUser = () => {
     return async (ctx, next) => {
         let { name, password, phone, verificationCode } = ctx.request.body;
         const user = new ManageUser(name, password, phone)
-
         const data = await user.save();
-
         ctx.body = formatteResult(true, '注册成功');
     }
 }
@@ -34,4 +32,16 @@ const userLogout = () => {
 module.exports = {
     createUser,
     checkUserExits
+}
+class ManageUser {
+    constructor(name, password, phone) {
+        this.name = name;
+        this.password = encrytoPwd(password);
+        this.phone = phone;
+        this.created_at = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    }
+    save () {
+        const sql = `INSERT INTO users set ?`;
+        return query(sql, { name: this.name, password: this.password, phone: this.phone, created_at: this.created_at });
+    }
 }

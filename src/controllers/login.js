@@ -1,7 +1,6 @@
-const { query } = require('@modules/DB');
-const { formatteResult } = require('@modules/utils');
-const { encrytoPwd } = require('@modules/utils');
-const auth = require('@modules/utils/auth');
+const { query } = require('@lib/db');
+const { formatteResult, encrytoPwd } = require('@utils');
+const auth = require('@middlewares/auth');
 
 const userLogin = () => {
     return async (ctx, next) => {
@@ -20,14 +19,14 @@ const userLogin = () => {
             ctx.body = formatteResult(false, '密码错误');
         } else {
             const token = auth.sign(ctx.request.body);
-            ctx.set(AUTHORIZATION, `Bearer ${token}`)
-            ctx.cookies.set(tokenName, token, {
-                maxAge: expiresIn,
-                httpOnly: true
-            })
+            // ctx.set(AUTHORIZATION, `Bearer ${token}`)
+            // ctx.cookies.set(tokenName, token, {
+            //     maxAge: expiresIn,
+            //     httpOnly: true
+            // })
             ctx.body = formatteResult(true, '登录成功', [token]);
         }
     }
 }
 
-module.exports = { userLogin }
+module.exports = { userLogin };

@@ -1,6 +1,6 @@
 const router = require('koa-router')();
 
-const { createUser, checkUserExits } = require('@apis/user');
+const { createUser, checkUserExits } = require('@controllers/user');
 
 //注册用户
 router.post('/', createUser());

@@ -6,16 +6,27 @@ const bodyParser = require('koa-bodyparser'); // body传值
 
 require('module-alias/register')// 路径别名
 
+const auth = require('@middlewares/auth');
+
+const { loggerMiddleware } = require('@middlewares/logger')
+
+const { responseHandler, errorHandler } = require('@middlewares/response')
+
 const app = new Koa();
 
-const auth = require('@modules/utils/auth');
-
-const { isHasToken } = require('@modules/utils');
-
-//token验证中间件
-app.use(isHasToken())
-
 app.use(bodyParser());
+
+// Logger 日志打印
+app.use(loggerMiddleware);
+
+// Error Handler 错误描写
+app.use(errorHandler);
+
+// Response //接口回复格式定义
+app.use(responseHandler);
+
+//验证token是否有效
+app.use(auth.validation());
 
 //引入登录模块
 const login = require('@routes/login');
@@ -25,14 +36,10 @@ const user = require('@routes/user');
 //登录
 router.use('/login', login.routes());
 
-//验证token是否有效
-app.use(auth.validation());
-
 //用户注册
 router.use('/user', user.routes());
 
 //加载路由
-app.use(router.routes()).use(router.allowedMethods);
+app.use(router.routes()).use(router.allowedMethods());
 
-//监听端口
-app.listen(5000);
+module.exports = app;
