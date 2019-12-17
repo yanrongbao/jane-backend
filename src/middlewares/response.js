@@ -3,15 +3,20 @@ const { logger } = require('./logger');
 // 这个middleware用于将ctx.result中的内容最终回传给客户端
 const responseHandler = async (ctx, next) => {
     //先去执行路由
-    await next();
-    const { success, msg, data = [] } = ctx.body;
-    //如果有返回数据，将返回数据添加到data中
-    ctx.type = 'json'
-    ctx.body = {
-        success,
-        msg,
-        data
+    if (ctx.request.url.indexOf('/images') !== -1) {
+        await next();
+    } else {
+        await next();
+        const { success, msg, data = [] } = ctx.body;
+        //如果有返回数据，将返回数据添加到data中
+        ctx.type = 'json'
+        ctx.body = {
+            success,
+            msg,
+            data
+        }
     }
+
 }
 // 这个middleware处理在其它middleware中出现的异常
 const errorHandler = (ctx, next) => {

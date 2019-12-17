@@ -1,11 +1,11 @@
 const { query } = require('@lib/db');
-const { formatteResult, encrytoPwd } = require('@utils');
+const { formatteResult, encrytoPwd, getIPAdress } = require('@utils');
 const auth = require('@middlewares/auth');
 
 const userLogin = () => {
     return async (ctx, next) => {
         let { name, password } = ctx.request.body;
-        const sql = `SELECT name,password FROM users WHERE name="${name}"`;
+        const sql = `SELECT name,password,avatar_url FROM users WHERE name="${name}"`;
         const usersData = await query(sql);
         if (usersData.err) {
             //查询错误
@@ -19,12 +19,12 @@ const userLogin = () => {
             ctx.body = formatteResult(false, '密码错误');
         } else {
             const token = auth.sign(ctx.request.body);
-            // ctx.set(AUTHORIZATION, `Bearer ${token}`)
-            // ctx.cookies.set(tokenName, token, {
-            //     maxAge: expiresIn,
-            //     httpOnly: true
-            // })
-            ctx.body = formatteResult(true, '登录成功', [token]);
+            const response = {
+                token,
+                name: usersData[0].name,
+                avatar_url: `${getIPAdress()}${usersData[0].avatar_url}`
+            }
+            ctx.body = formatteResult(true, '登录成功', [response]);
         }
     }
 }

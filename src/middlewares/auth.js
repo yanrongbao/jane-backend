@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const koajwt = require('koa-jwt');
 const config = require('../../config')
 const expiresIn = 60 * 60 * 24;//过期时间 单位：s
-const unprotectedUrl = [/\/login/,];//过滤验证token路径
+const unprotectedUrl = [/\/login/, /\/user/, /^\/images/, /^\/public/];//过滤验证token路径
 
 const auth = {
     //生成token info：body传值

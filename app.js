@@ -10,7 +10,11 @@ const auth = require('@middlewares/auth');
 
 const { loggerMiddleware } = require('@middlewares/logger')
 
-const { responseHandler, errorHandler } = require('@middlewares/response')
+const { responseHandler, errorHandler } = require('@middlewares/response');
+
+const staticServe = require('koa-static');
+
+const path = require('path');
 
 const app = new Koa();
 
@@ -28,16 +32,21 @@ app.use(responseHandler);
 //验证token是否有效
 app.use(auth.validation());
 
-//引入登录模块
-const login = require('@routes/login');
-//引入用户注册模块
-const user = require('@routes/user');
+// 静态资源目录对于相对入口文件index.js的路径
+app.use(staticServe(
+    path.join(__dirname + '/static/')
+))
+
+//引入路由模块
+const { login, user, public } = require('@routes');
 
 //登录
 router.use('/login', login.routes());
-
 //用户注册
 router.use('/user', user.routes());
+//公共接口
+router.use('/public', public.routes());
+
 
 //加载路由
 app.use(router.routes()).use(router.allowedMethods());

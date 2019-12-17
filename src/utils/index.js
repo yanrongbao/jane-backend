@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const config = require('../../config')
 const formatteResult = (success = true, msg = '', data = []) => {
     return {
         success,
@@ -26,9 +27,23 @@ const isHasToken = () => {
         })
     }
 }
+//获取本机ip地址
+const getIPAdress = () => {
+    const interfaces = require('os').networkInterfaces();
+    for (const devName in interfaces) {
+        const iface = interfaces[devName];
+        for (let i = 0; i < iface.length; i++) {
+            const alias = iface[i];
+            if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                return `http://${alias.address}:${config.port}`;
+            }
+        }
+    }
+}
 
 module.exports = {
     formatteResult,
     encrytoPwd,
-    isHasToken
+    isHasToken,
+    getIPAdress
 };

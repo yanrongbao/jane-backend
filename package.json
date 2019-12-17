@@ -1,33 +1,35 @@
 {
-    "name": "jane-backend",
-    "version": "1.0.0",
-    "description": "简书网后台",
-    "main": "app.js",
-    "scripts": {
-        "start": "supervisor bin/www"
-    },
-    "author": "yrb",
-    "license": "ISC",
-    "dependencies": {
-        "koa": "^2.11.0",
-        "koa-bodyparser": "^4.2.1",
-        "koa-jwt": "^3.6.0",
-        "koa-router": "^7.4.0",
-        "mysql": "^2.17.1"
-    },
-    "devDependencies": {
-        "crypto": "^1.0.1",
-        "jsonwebtoken": "^8.5.1",
-        "log4js": "^6.1.0",
-        "module-alias": "^2.2.2",
-        "moment": "^2.24.0"
-    },
-    "_moduleAliases": {
-        "@controllers": "src/controllers",
-        "@middlewares": "src/middlewares",
-        "@routes": "src/routes",
-        "@modules": "src/modules",
-        "@lib": "src/lib",
-        "@utils": "src/utils"
-    }
+  "name": "jane-backend",
+  "version": "1.0.0",
+  "description": "简书网后台",
+  "main": "app.js",
+  "scripts": {
+    "start": "supervisor bin/www"
+  },
+  "author": "yrb",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-jwt": "^3.6.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mysql": "^2.17.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "crypto": "^1.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "log4js": "^6.1.0",
+    "module-alias": "^2.2.2",
+    "moment": "^2.24.0"
+  },
+  "_moduleAliases": {
+    "@controllers": "src/controllers",
+    "@middlewares": "src/middlewares",
+    "@routes": "src/routes",
+    "@modules": "src/modules",
+    "@lib": "src/lib",
+    "@utils": "src/utils"
+  }
 }
