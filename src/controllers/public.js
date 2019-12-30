@@ -2,8 +2,7 @@ const { formatteResult, getIPAdress } = require('@utils');
 const { query } = require('@lib/db');
 const getWriteLists = () => {
     return async (ctx, next) => {
-        const pageSize = 6;
-        let page = 1;
+        const { pageSize = 6, page = 1 } = ctx.query;
         const sql = `SELECT * FROM write_list LIMIT ${(page - 1) * pageSize
             }, ${pageSize} `;
         const listData = await query(sql);
